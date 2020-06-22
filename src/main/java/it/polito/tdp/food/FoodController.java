@@ -5,8 +5,10 @@
 package it.polito.tdp.food;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import it.polito.tdp.food.model.Model;
+import it.polito.tdp.food.model.Portion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,7 +42,7 @@ public class FoodController {
     private Button btnCammino; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxPorzioni"
-    private ComboBox<?> boxPorzioni; // Value injected by FXMLLoader
+    private ComboBox<String> boxPorzioni; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
@@ -54,14 +56,27 @@ public class FoodController {
     @FXML
     void doCorrelate(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Cerco porzioni correlate...");
+    	txtResult.appendText("Cerco porzioni correlate...\n");
+    	List<String> stampa =model.correlazione(boxPorzioni.getValue());
+    	for(String s:stampa) {txtResult.appendText(s);txtResult.appendText("\n");}
     	
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Creazione grafo...");
+    	Integer num;
+    	try {num =Integer.parseInt(txtCalorie.getText());
+    	model.creaGrafo(num);
+    	boxPorzioni.getItems().addAll(model.getPorzioni());
+    	txtResult.appendText("Creazione grafo...\n");
+    	txtResult.appendText("Numero di vertici: "+model.numberVertex()+"\n");
+    	txtResult.appendText("Numero di archi: "+model.numberEdges()+"\n");}
+    	catch(Exception e) {
+    		txtResult.appendText("Errore...");	
+    	}
+    	
+    	
     	
     }
 
@@ -74,10 +89,11 @@ public class FoodController {
         assert btnCammino != null : "fx:id=\"btnCammino\" was not injected: check your FXML file 'Food.fxml'.";
         assert boxPorzioni != null : "fx:id=\"boxPorzioni\" was not injected: check your FXML file 'Food.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Food.fxml'.";
-
+        
     }
     
     public void setModel(Model model) {
     	this.model = model;
+    	//
     }
 }

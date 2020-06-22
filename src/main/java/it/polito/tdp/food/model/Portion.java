@@ -18,6 +18,11 @@ public class Portion {
 		this.saturated_fats = saturated_fats;
 		this.food_code = food_code;
 	}
+	public Portion(String portion_display_name) {
+		
+		this.portion_display_name = portion_display_name;
+		
+	}
 	
 	public Integer getPortion_id() {
 		return portion_id;
@@ -83,8 +88,16 @@ public class Portion {
 
 	@Override
 	public String toString() {
-		return "{portion_id=" + portion_id + ", portion_amount=" + portion_amount + ", portion_display_name="
-				+ portion_display_name + ", food_code=" + food_code + "}";
+		String text="";
+		if(portion_id!=null)text=text+" portion_id "+portion_id;
+		if(portion_amount!=null)text=text+" portion_amount "+portion_amount;
+		if(portion_display_name!=null)text=text+" portion_display_name "+portion_display_name;
+		if(food_code!=null)text=text+" food_code "+food_code;
+		
+		return text;
+				
+				//"{portion_id=" + portion_id + ", portion_amount=" + portion_amount + ", portion_display_name="
+				//+ portion_display_name + ", food_code=" + food_code + "}";
 	}
 
 	
